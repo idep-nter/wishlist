@@ -7,8 +7,9 @@
           <v-text-field
             v-model="search"
             type="text"
-            append-icon="mdi-magnify"
+            prepend-icon="mdi-magnify"
             label="Product name"
+            style="width: 280px"
           ></v-text-field>
         </v-col>
 
@@ -60,12 +61,13 @@
               :important="item.important"
             ></user-item>
           </v-flex>
+
           <v-pagination
             id="pagination"
             class="mt-8"
             color="#006400"
             v-model="currentPage"
-            :length="3"
+            :length="pageCount"
           ></v-pagination>
         </v-layout>
         <v-layout row class="justify-center pl-5 pr-10" v-else>
@@ -88,65 +90,71 @@ export default {
   components: {
     UserItem,
   },
-  // middleware: 'auth',
   data() {
     return {
       items: [],
       currentPage: 1,
       search: "",
-      categories: [null],
+      categories: [],
       importance: "all",
-      filteredCategories: [ ...Array(this.$store.getters["items/getCategories"].length).keys(),]
+      filteredCategories: [
+        ...Array(this.$store.getters["items/getCategories"].length).keys(),
+      ],
+      pageCount: Math.ceil(this.$store.getters["items/getCount"] / 12),
     };
+  },
+  watch: {
+    currentPage(value) {
+      this.loadItems(value);
+    },
   },
   computed: {
     // filteredCategories() {
     //   return [ ...Array(this.$store.getters["items/getCategories"].length).keys(),]
     // },
-    apiData() {
-      return this.$store["auth/APIData"];
-    },
-    height() {
-      switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return 1300;
-        default:
-          return 800;
-      }
-    },
-    hasItems() {
-      return this.$store.getters["items/hasItems"];
-    },
-    filteredItems() {
-      return this.items
-        .filter((item) => {
-          return item.name.toLowerCase().includes(this.search.toLowerCase());
-        })
-        .filter((item) => {
-          if (this.importance === "all") {
-            return item;
-          }
-          return item.important.toString() == this.importance;
-        })
-        .filter((item) => {
-          return this.filteredCategories.includes(item.category - 1);
-        });
-    },
+  },
+  apiData() {
+    return this.$store["auth/APIData"];
+  },
+  height() {
+    switch (this.$vuetify.breakpoint.name) {
+      case "xs":
+        return 1300;
+      default:
+        return 800;
+    }
+  },
+  hasItems() {
+    return this.$store.getters["items/hasItems"];
+  },
+  filteredItems() {
+    return this.items
+      .filter((item) => {
+        return item.name.toLowerCase().includes(this.search.toLowerCase());
+      })
+      .filter((item) => {
+        if (this.importance === "all") {
+          return item;
+        }
+        return item.important.toString() == this.importance;
+      })
+      .filter((item) => {
+        return this.filteredCategories.includes(item.category - 1);
+      })
   },
   created() {
-    this.loadItems();
+    this.loadItems(this.currentPage);
     this.loadCategories();
-    console.log(this.$store.getters['auth/loggg'])
+    console.log(this.$store.getters["auth/loggg"]);
   },
   methods: {
-    loadItems() {
-      this.$store.dispatch("items/loadItems");
-      this.items = this.$store.getters["items/getItems"]
+    loadItems(data) {
+      this.$store.dispatch("items/loadItems", data);
+      this.items = this.$store.getters["items/getItems"];
     },
     loadCategories() {
       this.$store.dispatch("items/loadCategories");
-      this.categories = this.$store.getters["items/getCategories"]
-      
+      this.categories = this.$store.getters["items/getCategories"];
     },
   },
 };

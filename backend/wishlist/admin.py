@@ -5,10 +5,10 @@ from .models import Item, Category
 class ItemAdmin(admin.ModelAdmin):
     list_display = ['name', 'user', 'price', 'category', 'description', 'image', 'link']
 
-    def save_model(self, request, obj, form, change):
-        if getattr(obj, 'author', None) is None:
-            obj.author = request.user
-        obj.save()
+    # def save_model(self, request, obj, form, change):
+    #     if getattr(obj, 'author', None) is None:
+    #         obj.author = request.user
+    #     obj.save()
     
 
 @admin.register(Category)

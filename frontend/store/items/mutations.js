@@ -7,5 +7,8 @@ export default {
     },
     setCategories(state, payload) {
         state.categories = payload
+    },
+    setCount(state, payload) {
+        state.count = payload
     }
 }
