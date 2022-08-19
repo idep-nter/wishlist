@@ -125,7 +125,6 @@ export default {
     },
   },
   created() {
-    console.log(this.showError);
     if (this.$route.query.warn) {
       this.errorMessage = "Please log in first!";
     } else {
@@ -156,7 +155,6 @@ export default {
       this.$refs.form.validate();
     },
     submitForm() {
-      console.log(this.showError);
       if (this.mode === "login") {
         this.formData = {
           username: this.username,

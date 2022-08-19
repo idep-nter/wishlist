@@ -7,4 +7,10 @@ export default {
   getError(state) {
     return state.isError
   },
+  getAccess(state) {
+    return state.access
+  },
+  getRefresh(state) {
+    return state.refresh
+  }
 };
