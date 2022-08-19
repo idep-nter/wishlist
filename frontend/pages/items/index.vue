@@ -13,6 +13,24 @@
           ></v-text-field>
         </v-col>
 
+        <v-col class="">
+          <h2 class="text-h6 mb-2">Filter by Price</h2>
+          <v-text-field
+            v-model="minPrice"
+            type="text"
+            prepend-icon="mdi-currency-usd"
+            label="Min price"
+            style="width: 280px"
+          ></v-text-field>
+          <v-text-field
+            v-model="maxPrice"
+            type="text"
+            prepend-icon="mdi-currency-usd"
+            label="Max price"
+            style="width: 280px"
+          ></v-text-field>
+        </v-col>
+
         <v-col>
           <h2 class="text-h6 mb-2">Filter by importance</h2>
           <v-btn-toggle v-model="importance" tile group dense shaped>
@@ -101,6 +119,8 @@ export default {
         ...Array(this.$store.getters["items/getCategories"].length).keys(),
       ],
       pageCount: Math.ceil(this.$store.getters["items/getCount"] / 12),
+      minPrice: null,
+      maxPrice: null,
     };
   },
   watch: {
@@ -112,40 +132,56 @@ export default {
     // filteredCategories() {
     //   return [ ...Array(this.$store.getters["items/getCategories"].length).keys(),]
     // },
-  },
-  apiData() {
-    return this.$store["auth/APIData"];
-  },
-  height() {
-    switch (this.$vuetify.breakpoint.name) {
-      case "xs":
-        return 1300;
-      default:
-        return 800;
-    }
-  },
-  hasItems() {
-    return this.$store.getters["items/hasItems"];
-  },
-  filteredItems() {
-    return this.items
-      .filter((item) => {
-        return item.name.toLowerCase().includes(this.search.toLowerCase());
-      })
-      .filter((item) => {
-        if (this.importance === "all") {
-          return item;
-        }
-        return item.important.toString() == this.importance;
-      })
-      .filter((item) => {
-        return this.filteredCategories.includes(item.category - 1);
-      })
+    getMax() {
+      if (this.maxPrice === null || this.maxPrice === '') {
+        return 9999999999;
+      } else {
+        return this.maxPrice
+      }
+    },
+    getMin() {
+      if (this.minPrice === null || this.minPrice === '') {
+        return 0;
+      } else {
+        return this.minPrice
+      }
+    },
+    apiData() {
+      return this.$store["auth/APIData"];
+    },
+    height() {
+      switch (this.$vuetify.breakpoint.name) {
+        case "xs":
+          return 1300;
+        default:
+          return 800;
+      }
+    },
+    hasItems() {
+      return this.$store.getters["items/hasItems"];
+    },
+    filteredItems() {
+      return this.items
+        .filter((item) => {
+          return item.name.toLowerCase().includes(this.search.toLowerCase());
+        })
+        .filter((item) => {
+          if (this.importance === "all") {
+            return item;
+          }
+          return item.important.toString() == this.importance;
+        })
+        .filter((item) => {
+          return this.filteredCategories.includes(item.category - 1);
+        })
+        .filter((item) => {
+          return item.price >= this.getMin && item.price <= this.getMax;
+        });
+    },
   },
   created() {
     this.loadItems(this.currentPage);
     this.loadCategories();
-    console.log(this.$store.getters["auth/loggg"]);
   },
   methods: {
     loadItems(data) {
