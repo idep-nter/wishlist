@@ -11,4 +11,7 @@ export default {
   hasItems(state) {
     return state.items && state.items.length > 0;
   },
+  getCount(state) {
+    return state.count
+  }
 };

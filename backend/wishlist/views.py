@@ -18,8 +18,13 @@ class ItemPagination(PageNumberPagination):
 
 class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
-    # pagination_class = ItemPagination
-    # queryset = Item.objects.all()
+    pagination_class = ItemPagination
+    queryset = Item.objects.all()
 
-    def get_queryset(self):
-        return Item.objects.filter(user=self.request.user)
+    # def get_queryset(self):
+        # return Item.objects.filter(user=self.request.user)
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        obj.save()        

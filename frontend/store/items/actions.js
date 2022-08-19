@@ -39,21 +39,24 @@ export default {
   async deleteItem(context, data) {
       await axios.delete('http://localhost:8000/api/items/' + data.id + '/');
   },
-  async loadItems(context) {
-    const response = await axios.get("http://localhost:8000/api/items/");
+  async loadItems(context, data) {
+
+    const response = await axios.get(`http://localhost:8000/api/items/?page=${data}`);
+
+    context.commit("setCount", response.data.count);
 
     const items = [];
 
-    for (const key in response.data) {
+    for (const key in response.data.results) {
       const item = {
-        id: String(response.data[key].id),
-        name: response.data[key].name,
-        price: response.data[key].price,
-        important: response.data[key].important,
-        image: response.data[key].image,
-        category: response.data[key].category,
-        link: response.data[key].link,
-        description: response.data[key].description,
+        id: String(response.data.results[key].id),
+        name: response.data.results[key].name,
+        price: response.data.results[key].price,
+        important: response.data.results[key].important,
+        image: response.data.results[key].image,
+        category: response.data.results[key].category,
+        link: response.data.results[key].link,
+        description: response.data.results[key].description,
       };
       items.push(item);
     }
