@@ -2,46 +2,47 @@ import axios from "axios";
 
 export default {
   async addItem(context, data) {
-      const itemData = {
-          name: data.name,
-          category: data.category,
-          image: data.image,
-          price: data.price,
-          important: data.important,
-          link: data.link,
-          description: data.description
-      };
-      await axios({
-          method: 'post',
-          url: 'http://localhost:8000/api/items/',
-          data: itemData
-      });
+    const itemData = {
+      name: data.name,
+      category: data.category,
+      image: data.image,
+      price: data.price,
+      important: data.important,
+      link: data.link,
+      description: data.description,
+    };
+    await axios({
+      method: "post",
+      url: "http://localhost:8000/api/items/",
+      data: itemData,
+    });
 
-      context.commit('addItem', itemData)
+    context.commit("addItem", itemData);
   },
   async editItem(context, data) {
-      const itemData = {
-          id: data.id,
-          name: data.name,
-          image: data.image,
-          category: data.category,
-          price: data.price,
-          important: data.important,
-          link: data.link,
-          description: data.description
-      };
-      await axios({
-          method: 'put',
-          url: 'http://localhost:8000/api/items/' + itemData.id + '/',
-          data: itemData
-      });
+    const itemData = {
+      id: data.id,
+      name: data.name,
+      image: data.image,
+      category: data.category,
+      price: data.price,
+      important: data.important,
+      link: data.link,
+      description: data.description,
+    };
+    await axios({
+      method: "put",
+      url: "http://localhost:8000/api/items/" + itemData.id + "/",
+      data: itemData,
+    });
   },
   async deleteItem(context, data) {
-      await axios.delete('http://localhost:8000/api/items/' + data.id + '/');
+    await axios.delete("http://localhost:8000/api/items/" + data.id + "/");
   },
   async loadItems(context, data) {
-
-    const response = await axios.get(`http://localhost:8000/api/items/?page=${data}`);
+    const response = await axios.get(
+      `http://localhost:8000/api/items/?page=${data}`
+    );
 
     context.commit("setCount", response.data.count);
 

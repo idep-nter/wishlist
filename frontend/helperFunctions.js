@@ -31,3 +31,23 @@ export const refreshAccess = async (store) => {
     console.log(err);
   }
 };
+
+export const loggedGuard = (next) => {
+  next((vm) => {
+    if (vm.$store.getters["auth/loggedIn"]) {
+      next({ path: "/items" });
+    } else {
+      next();
+    }
+  });
+};
+
+export const notLoggedGuard = (next) => {
+  next((vm) => {
+    if (!vm.$store.getters["auth/loggedIn"]) {
+      next({ path: "/auth/login", query: { warn: true } });
+    } else {
+      next();
+    }
+  });
+};

@@ -5,6 +5,8 @@
 
 <script>
 import UserAuthForm from '~/components/auth/UserAuthForm'
+import { loggedGuard } from "~/helperFunctions"
+
 
 export default {
   components: {
@@ -14,6 +16,9 @@ export default {
     saveAuth(data) {
       this.$store.dispatch("auth/register", data);
     }
-  }
+  },
+  beforeRouteEnter(to, from, next) {
+    loggedGuard(next)
+  },
 };
 </script>

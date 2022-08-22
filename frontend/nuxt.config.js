@@ -1,5 +1,4 @@
 import colors from "vuetify/es5/util/colors";
-import routerAuth from "./middleware/router-auth";
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target,
@@ -9,9 +8,6 @@ export default {
     port: 8080,
     host: "0.0.0.0",
   },
-  // router: {
-  //   middleware: ["auth"]
-  // },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: "%s - Wishlist",

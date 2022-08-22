@@ -10,10 +10,10 @@
         </v-row>
       </NuxtLink>
       <div class="right">
-        <NuxtLink :to="redirect('items/add')" class="ml-8 links">
+        <NuxtLink to='items/add' class="ml-8 links">
           <v-btn>Add Item</v-btn>
         </NuxtLink>
-        <NuxtLink :to="redirect('/items')" class="links">
+        <NuxtLink to='/items' class="links">
           <v-btn>My items</v-btn>
         </NuxtLink>
       </div>
@@ -85,11 +85,11 @@ export default {
       this.$store.dispatch("auth/logout");
       this.$router.replace("/");
     },
-    redirect(page) {
-      return this.loggedIn
-        ? page
-        : { path: "/auth/login", query: { warn: true } };
-    },
+    // redirect(page) {
+    //   return this.loggedIn
+    //     ? page
+    //     : { path: "/auth/login", query: { warn: true } };
+    // },
   },
 };
 </script>

@@ -57,7 +57,7 @@
 
 <script>
 export default {
-  emits: ["save-data"],
+  emits: ["save-data", "input-check"],
   props: ["mode", "id"],
   data() {
     return {
@@ -95,7 +95,52 @@ export default {
         (v) =>
           (v && v.length <= 200) || "Name must be less than 200 characters",
       ],
+      hasData: false,
     };
+  },
+  watch: {
+    name(value) {
+      if (this.name) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
+    category(value) {
+      if (this.category) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
+    image(value) {
+      if (this.image) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
+    price(value) {
+      if (this.price) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
+    link(value) {
+      if (this.link) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
+    description(value) {
+      if (this.description) {
+        this.$emit("input-check", true);
+      } else {
+        this.$emit("input-check", false);
+      }
+    },
   },
   methods: {
     validate() {
@@ -105,7 +150,7 @@ export default {
       this.$refs.form.reset();
     },
     submitForm() {
-      if (this.validate()) {
+      if (!this.validate()) {
         return;
       }
       const category = this.categories.find(
@@ -137,7 +182,7 @@ export default {
     },
     loadCategories() {
       this.$store.dispatch("items/loadCategories");
-      this.categories = this.$store.getters["items/getCategories"]
+      this.categories = this.$store.getters["items/getCategories"];
     },
   },
   created() {

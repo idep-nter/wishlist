@@ -103,6 +103,7 @@
 
 <script>
 import UserItem from "~/components/items/UserItem.vue";
+import { notLoggedGuard } from "~/helperFunctions";
 
 export default {
   components: {
@@ -192,6 +193,9 @@ export default {
       this.$store.dispatch("items/loadCategories");
       this.categories = this.$store.getters["items/getCategories"];
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    notLoggedGuard(next)
   },
 };
 </script>

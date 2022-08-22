@@ -1,10 +1,8 @@
-import axios from "axios";
-
-import { getAccess, refreshAccess } from "./helperFunctions";
+import { getAccess, refreshAccess } from "~/helperFunctions";
 
 export default function ({ store }) {
   getAccess(store);
   setInterval(() => {
     refreshAccess(store);
-  }, 59000);
+  }, 3540000);
 }

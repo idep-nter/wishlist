@@ -10,5 +10,5 @@ export default {
     },
     setCount(state, payload) {
         state.count = payload
-    }
+    },
 }
