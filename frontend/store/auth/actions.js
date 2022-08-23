@@ -19,6 +19,7 @@ export default {
       .then((response) => {
         if (response.statusText === "OK") {
           context.commit("setError", false);
+          this.$router.replace("login");
         } else {
           throw new Error("Something went wrong");
         }
@@ -54,6 +55,8 @@ export default {
 
           localStorage.setItem("access", access);
           localStorage.setItem("refresh", refresh);
+
+          this.$router.replace("/items");
         } else {
           throw new Error("Something went wrong");
         }

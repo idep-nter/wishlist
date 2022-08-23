@@ -167,8 +167,6 @@ export default {
           this.errorMessage = "Failed to authenticate! Check your login data.";
           return;
         }
-
-        this.$router.replace("/items");
       } else {
         this.validate();
 
@@ -188,8 +186,6 @@ export default {
           this.errorMessage = "Something went wrong! Please try again later.";
           return;
         }
-
-        this.$router.replace("login");
       }
     },
   },

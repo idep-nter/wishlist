@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework_simplejwt',
     'wishlist',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -48,8 +49,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-
-
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -142,3 +141,5 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
 }
+
+AUTH_USER_MODEL = "users.CustomUser" 

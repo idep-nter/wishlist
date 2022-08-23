@@ -3,6 +3,7 @@ from .models import Item, Category
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
+    # model = Item
     list_display = ['name', 'user', 'price', 'category', 'description', 'image', 'link']
 
     # def save_model(self, request, obj, form, change):
