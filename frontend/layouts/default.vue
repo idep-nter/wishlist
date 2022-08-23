@@ -1,10 +1,9 @@
 <template>
   <v-app>
-    <the-header></the-header>
-    <v-main> 
+    <layout-the-header></layout-the-header>
+    <v-main>
       <Nuxt />
     </v-main>
-    <the-footer></the-footer>
+    <layout-the-footer></layout-the-footer>
   </v-app>
 </template>
-

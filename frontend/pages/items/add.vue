@@ -1,32 +1,19 @@
 <template>
   <div>
     <item-form mode="add" @save-data="saveData" @input-check="inputCheck" />
-    <v-dialog v-model="dialog" max-width="320">
-      <v-card>
-        <v-card-title class="text-h6">
+      <v-dialog v-model="dialog" max-width="320">
+      <layout-the-dialog @disagree="closeDialog" @agree="discardChanges">>
+        <template v-slot:text>
           Do you really want to leave? You have unsaved changes!
-        </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="#006400" text @click="closeDialog()"> Disagree </v-btn>
-          <v-btn
-            color="#006400"
-            text
-            @click="
-              discardChanges();
-            "
-          >
-            Agree
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+        </template>
+      </layout-the-dialog>
     </v-dialog>
   </div>
 </template>
 
 <script>
 import ItemForm from "~/components/items/UserItemForm";
-import {notLoggedGuard } from "~/helperFunctions";
+import { notLoggedGuard } from "~/helperFunctions";
 
 export default {
   components: {
@@ -36,12 +23,12 @@ export default {
     return {
       dialog: false,
       to: null,
-      hasData: false
+      hasData: false,
     };
   },
   methods: {
     inputCheck(data) {
-      this.hasData = data
+      this.hasData = data;
     },
     saveData(data) {
       this.$store.dispatch("items/addItem", data);

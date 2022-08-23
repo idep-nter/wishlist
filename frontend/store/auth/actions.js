@@ -65,7 +65,7 @@ export default {
 
   async logout(context) {
     if (context.getters.loggedIn) {
-      context.commit("destroyToken");
+      await context.commit("destroyToken");
     }
   },
 };
