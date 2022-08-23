@@ -150,8 +150,9 @@ export default {
       this.$refs.form.reset();
     },
     submitForm() {
-      if (!this.validate()) {
-        return;
+      this.validate()
+      if (!this.valid) {
+        return
       }
       const category = this.categories.find(
         (cat) => cat.name === this.category
@@ -180,7 +181,7 @@ export default {
       this.link = item.link;
       this.description = item.description;
     },
-    loadCategories() {
+    async loadCategories() {
       this.$store.dispatch("items/loadCategories");
       this.categories = this.$store.getters["items/getCategories"];
     },

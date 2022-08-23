@@ -7,11 +7,6 @@ export default {
       email: data.email,
       password: data.password,
     };
-    // const response = await axios({
-    //   method: "post",
-    //   url: "http://localhost:8000/api/v1/users/",
-    //   data: userData,
-    // });
     const url = "http://localhost:8000/api/v1/users/";
 
     axios

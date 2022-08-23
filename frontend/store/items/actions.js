@@ -11,6 +11,7 @@ export default {
       link: data.link,
       description: data.description,
     };
+    console.log(itemData)
     await axios({
       method: "post",
       url: "http://localhost:8000/api/items/",
@@ -18,6 +19,7 @@ export default {
     });
 
     context.commit("addItem", itemData);
+    this.$router.replace("/items");
   },
   async editItem(context, data) {
     const itemData = {

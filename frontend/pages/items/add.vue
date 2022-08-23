@@ -1,8 +1,9 @@
 <template>
   <div>
     <item-form mode="add" @save-data="saveData" @input-check="inputCheck" />
-      <v-dialog v-model="dialog" max-width="320">
-      <layout-the-dialog @disagree="closeDialog" @agree="discardChanges">>
+    <v-dialog v-model="dialog" max-width="320">
+      <layout-the-dialog @disagree="closeDialog" @agree="discardChanges"
+        >>
         <template v-slot:text>
           Do you really want to leave? You have unsaved changes!
         </template>
@@ -24,6 +25,7 @@ export default {
       dialog: false,
       to: null,
       hasData: false,
+      added: false,
     };
   },
   methods: {
@@ -32,7 +34,7 @@ export default {
     },
     saveData(data) {
       this.$store.dispatch("items/addItem", data);
-      this.$router.replace("/");
+      this.added = true
     },
     discardChanges() {
       this.dialog = false;
@@ -44,11 +46,12 @@ export default {
     },
   },
   beforeRouteLeave(to, from, next) {
-    if (this.to || !this.hasData) {
+    if (this.to || !this.hasData || this.added) {
       next();
     } else {
       this.dialog = true;
       this.to = to;
+      console.log(this.to)
     }
   },
   beforeRouteEnter(to, undefined, next) {
