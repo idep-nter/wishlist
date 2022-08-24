@@ -8,7 +8,7 @@
       </v-sheet>
     </v-container>
     <v-container class="mt-10">
-      <div class="d-flex justify-center mt-16 ">
+      <div class="d-flex justify-center mt-16">
         <NuxtLink to="/auth/register" v-if="!isLogged">
           <v-btn dark large class="btn">Sign up</v-btn>
         </NuxtLink>
@@ -18,14 +18,13 @@
 </template>
 
 <script>
-  export default{
-    computed: {
-      isLogged() {
-        return this.$store.getters['auth/loggedIn']
-      }
+export default {
+  computed: {
+    isLogged() {
+      return this.$store.getters['auth/loggedIn'];
     },
-    
-  }
+  },
+};
 </script>
 
 <style scoped>
@@ -35,9 +34,8 @@ h1 {
 
 .custom {
   flex-direction: column;
-  justify-content: center;  
-  align-items: center;    
-
+  justify-content: center;
+  align-items: center;
 }
 
 span {
@@ -45,7 +43,7 @@ span {
 }
 
 .btn {
-  display:inline-block;
+  display: inline-block;
   color: #ffffff;
 }
 </style>

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import UserAuthForm from "~/components/auth/UserAuthForm";
-import { loggedGuard } from "~/helperFunctions"
+import UserAuthForm from '~/components/auth/UserAuthForm';
+import { loggedGuard } from '~/helperFunctions';
 
 export default {
   components: {
@@ -12,11 +12,11 @@ export default {
   },
   methods: {
     saveAuth(data) {
-      this.$store.dispatch("auth/login", data);
+      this.$store.dispatch('auth/login', data);
     },
   },
   beforeRouteEnter(to, from, next) {
-    loggedGuard(next)
+    loggedGuard(next);
   },
 };
 </script>

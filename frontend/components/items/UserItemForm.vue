@@ -4,7 +4,7 @@
       <v-text-field
         v-model="name"
         :rules="nameRules"
-        :counter="20"
+        :counter="15"
         label="Title"
         required
       ></v-text-field>
@@ -57,43 +57,43 @@
 
 <script>
 export default {
-  emits: ["save-data", "input-check"],
-  props: ["mode", "id"],
+  emits: ['save-data', 'input-check'],
+  props: ['mode', 'id'],
   data() {
     return {
       valid: true,
-      name: "",
+      name: '',
       nameRules: [
-        (v) => !!v || "Title is required",
-        (v) => (v && v.length <= 20) || "Name must be less than 20 characters",
+        (v) => !!v || 'Title is required',
+        (v) => (v && v.length <= 20) || 'Name must be less than 20 characters',
       ],
-      category: "",
+      category: '',
       categories: [],
-      price: "",
+      price: '',
       priceRules: [
-        (v) => !!v || "Price is required",
-        (v) => /\b(?<!\.)\d+(?!\.)\b/.test(v) || "Price must be a number",
+        (v) => !!v || 'Price is required',
+        (v) => /\b(?<!\.)\d+(?!\.)\b/.test(v) || 'Price must be a number',
       ],
       important: false,
-      image: "",
+      image: '',
       imageRules: [
         (v) =>
           /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
             v
-          ) || "Must be a valid url",
+          ) || 'Must be a valid url',
       ],
-      link: "",
+      link: '',
       linkRules: [
-        (v) => !!v || "Link is required",
+        (v) => !!v || 'Link is required',
         (v) =>
           /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
             v
-          ) || "Must be a valid url",
+          ) || 'Must be a valid url',
       ],
-      description: "",
+      description: '',
       descriptionRules: [
         (v) =>
-          (v && v.length <= 200) || "Name must be less than 200 characters",
+          (v && v.length <= 200) || 'Name must be less than 200 characters',
       ],
       hasData: false,
     };
@@ -101,44 +101,44 @@ export default {
   watch: {
     name(value) {
       if (this.name) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
     category(value) {
       if (this.category) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
     image(value) {
       if (this.image) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
     price(value) {
       if (this.price) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
     link(value) {
       if (this.link) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
     description(value) {
       if (this.description) {
-        this.$emit("input-check", true);
+        this.$emit('input-check', true);
       } else {
-        this.$emit("input-check", false);
+        this.$emit('input-check', false);
       }
     },
   },
@@ -150,9 +150,9 @@ export default {
       this.$refs.form.reset();
     },
     submitForm() {
-      this.validate()
+      this.validate();
       if (!this.valid) {
-        return
+        return;
       }
       const category = this.categories.find(
         (cat) => cat.name === this.category
@@ -167,10 +167,10 @@ export default {
         link: this.link,
         description: this.description,
       };
-      this.$emit("save-data", formData);
+      this.$emit('save-data', formData);
     },
     loadItemData() {
-      const item = this.$store.getters["items/getItemById"](this.id);
+      const item = this.$store.getters['items/getItemById'](this.id);
       const category = this.categories.find((cat) => cat.id == item.category);
 
       this.name = item.name;
@@ -182,14 +182,14 @@ export default {
       this.description = item.description;
     },
     async loadCategories() {
-      this.$store.dispatch("items/loadCategories");
-      this.categories = this.$store.getters["items/getCategories"];
+      this.$store.dispatch('items/loadCategories');
+      this.categories = this.$store.getters['items/getCategories'];
     },
   },
   created() {
     this.loadCategories();
 
-    if (this.mode === "edit") {
+    if (this.mode === 'edit') {
       this.loadItemData();
     }
   },

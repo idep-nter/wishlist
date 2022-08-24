@@ -102,8 +102,8 @@
 </template>
 
 <script>
-import UserItem from "~/components/items/UserItem.vue";
-import { notLoggedGuard } from "~/helperFunctions";
+import UserItem from '~/components/items/UserItem.vue';
+import { notLoggedGuard } from '~/helperFunctions';
 
 export default {
   components: {
@@ -113,13 +113,11 @@ export default {
     return {
       items: [],
       currentPage: 1,
-      search: "",
+      search: '',
       categories: [],
-      importance: "all",
-      filteredCategories: [
-        ...Array(this.$store.getters["items/getCategories"].length).keys(),
-      ],
-      pageCount: Math.ceil(this.$store.getters["items/getCount"] / 12),
+      importance: 'all',
+      filteredCategories: [],
+      pageCount: null,
       minPrice: null,
       maxPrice: null,
     };
@@ -137,29 +135,29 @@ export default {
       if (this.maxPrice === null || this.maxPrice === '') {
         return 9999999999;
       } else {
-        return this.maxPrice
+        return this.maxPrice;
       }
     },
     getMin() {
       if (this.minPrice === null || this.minPrice === '') {
         return 0;
       } else {
-        return this.minPrice
+        return this.minPrice;
       }
     },
     apiData() {
-      return this.$store["auth/APIData"];
+      return this.$store['auth/APIData'];
     },
     height() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
+        case 'xs':
           return 1300;
         default:
           return 800;
       }
     },
     hasItems() {
-      return this.$store.getters["items/hasItems"];
+      return this.$store.getters['items/hasItems'];
     },
     filteredItems() {
       return this.items
@@ -167,7 +165,7 @@ export default {
           return item.name.toLowerCase().includes(this.search.toLowerCase());
         })
         .filter((item) => {
-          if (this.importance === "all") {
+          if (this.importance === 'all') {
             return item;
           }
           return item.important.toString() == this.importance;
@@ -183,19 +181,29 @@ export default {
   created() {
     this.loadItems(this.currentPage);
     this.loadCategories();
+    this.loadFilteredCategories();
+    this.loadPageCount();
   },
   methods: {
-    loadItems(data) {
-      this.$store.dispatch("items/loadItems", data);
-      this.items = this.$store.getters["items/getItems"];
+    async loadItems(data) {
+      this.$store.dispatch('items/loadItems', data);
+      this.items = this.$store.getters['items/getItems'];
     },
     loadCategories() {
-      this.$store.dispatch("items/loadCategories");
-      this.categories = this.$store.getters["items/getCategories"];
+      this.$store.dispatch('items/loadCategories');
+      this.categories = this.$store.getters['items/getCategories'];
+    },
+    async loadFilteredCategories() {
+      this.filteredCategories = [
+        ...Array(this.$store.getters['items/getCategories'].length).keys(),
+      ];
+    },
+    loadPageCount() {
+      this.pageCount = Math.ceil(this.$store.getters['items/getCount'] / 12);
     },
   },
   beforeRouteEnter(to, from, next) {
-    notLoggedGuard(next)
+    notLoggedGuard(next);
   },
 };
 </script>

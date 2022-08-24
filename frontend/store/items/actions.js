@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   async addItem(context, data) {
@@ -11,15 +11,15 @@ export default {
       link: data.link,
       description: data.description,
     };
-    console.log(itemData)
+    console.log(itemData);
     await axios({
-      method: "post",
-      url: "http://localhost:8000/api/items/",
+      method: 'post',
+      url: 'http://localhost:8000/api/items/',
       data: itemData,
     });
 
-    context.commit("addItem", itemData);
-    this.$router.replace("/items");
+    context.commit('addItem', itemData);
+    this.$router.replace('/items');
   },
   async editItem(context, data) {
     const itemData = {
@@ -33,20 +33,21 @@ export default {
       description: data.description,
     };
     await axios({
-      method: "put",
-      url: "http://localhost:8000/api/items/" + itemData.id + "/",
+      method: 'put',
+      url: 'http://localhost:8000/api/items/' + itemData.id + '/',
       data: itemData,
     });
+    this.$router.replace('/items/' + itemData.id);
   },
   async deleteItem(context, data) {
-    await axios.delete("http://localhost:8000/api/items/" + data.id + "/");
+    await axios.delete('http://localhost:8000/api/items/' + data.id + '/');
   },
   async loadItems(context, data) {
     const response = await axios.get(
       `http://localhost:8000/api/items/?page=${data}`
     );
 
-    context.commit("setCount", response.data.count);
+    context.commit('setCount', response.data.count);
 
     const items = [];
 
@@ -64,10 +65,10 @@ export default {
       items.push(item);
     }
 
-    context.commit("setItems", items);
+    context.commit('setItems', items);
   },
   async loadCategories(context) {
-    const response = await axios.get("http://localhost:8000/api/categories/");
+    const response = await axios.get('http://localhost:8000/api/categories/');
 
     const categories = [];
 
@@ -79,6 +80,6 @@ export default {
       categories.push(category);
     }
 
-    context.commit("setCategories", categories);
+    context.commit('setCategories', categories);
   },
 };

@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ItemForm from "~/components/items/UserItemForm";
-import { notLoggedGuard } from "~/helperFunctions";
+import ItemForm from '~/components/items/UserItemForm';
+import { notLoggedGuard } from '~/helperFunctions';
 
 export default {
   components: {
@@ -33,8 +33,8 @@ export default {
       this.hasData = data;
     },
     saveData(data) {
-      this.$store.dispatch("items/addItem", data);
-      this.added = true
+      this.$store.dispatch('items/addItem', data);
+      this.added = true;
     },
     discardChanges() {
       this.dialog = false;
@@ -51,7 +51,7 @@ export default {
     } else {
       this.dialog = true;
       this.to = to;
-      console.log(this.to)
+      console.log(this.to);
     }
   },
   beforeRouteEnter(to, undefined, next) {

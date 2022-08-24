@@ -1,16 +1,14 @@
-import state from "./state";
-
 export default {
   loggedIn(state) {
     return state.access != null;
   },
   getError(state) {
-    return state.isError
+    return state.isError;
   },
   getAccess(state) {
-    return state.access
+    return state.access;
   },
   getRefresh(state) {
-    return state.refresh
-  }
+    return state.refresh;
+  },
 };

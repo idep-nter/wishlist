@@ -6,7 +6,8 @@
       @save-data="saveData"
     ></user-item-form>
     <v-dialog v-model="dialog" max-width="320">
-      <layout-the-dialog @disagree="closeDialog" @agree="discardChanges">>
+      <layout-the-dialog @disagree="closeDialog" @agree="discardChanges"
+        >>
         <template v-slot:text>
           Do you really want to leave? You have unsaved changes!
         </template>
@@ -16,8 +17,8 @@
 </template>
 
 <script>
-import UserItemForm from "@/components/items/UserItemForm.vue";
-import { notLoggedGuard } from "~/helperFunctions";
+import UserItemForm from '@/components/items/UserItemForm.vue';
+import { notLoggedGuard } from '~/helperFunctions';
 
 export default {
   components: {
@@ -30,8 +31,7 @@ export default {
   },
   methods: {
     saveData(data) {
-      this.$store.dispatch("items/editItem", data);
-      this.$router.replace("/items/" + this.id);
+      this.$store.dispatch('items/editItem', data);
     },
     discardChanges() {
       this.dialog = false;

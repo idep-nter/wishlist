@@ -79,75 +79,75 @@
 
 <script>
 export default {
-  emits: ["save-data"],
-  props: ["mode"],
+  emits: ['save-data'],
+  props: ['mode'],
   data() {
     return {
       valid: true,
       value: true,
       value2: true,
-      password: "",
+      password: '',
       passwordRules: [
-        (v) => !!v || "Password is required!",
+        (v) => !!v || 'Password is required!',
         (v) =>
           /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/.test(
             v
           ) ||
-          "Password must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character!",
+          'Password must contain a minimum of eight characters, at least one upper case English letter, one lower case English letter, one number and one special character!',
       ],
-      password2: "",
+      password2: '',
       password2Rule: [
-        (v) => !!v || "Password is required!",
-        (v) => v === this.password || "Passwords must be the same!",
+        (v) => !!v || 'Password is required!',
+        (v) => v === this.password || 'Passwords must be the same!',
       ],
-      username: "",
+      username: '',
       usernameRules: [
-        (v) => !!v || "Username is required!",
+        (v) => !!v || 'Username is required!',
         (v) =>
-          (v && v.length <= 20) || "Username must be less than 20 characters!",
+          (v && v.length <= 20) || 'Username must be less than 20 characters!',
       ],
-      email: "",
+      email: '',
       emailRules: [
-        (v) => !!v || "E-mail is required!",
-        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid!",
+        (v) => !!v || 'E-mail is required!',
+        (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid!',
       ],
       formData: {},
-      errorMessage: "",
+      errorMessage: '',
     };
   },
   watch: {
     $route() {
       if (this.$route.query.warn) {
-        this.errorMessage = "Please log in first!";
+        this.errorMessage = 'Please log in first!';
       } else {
-        this.errorMessage = "";
+        this.errorMessage = '';
       }
     },
   },
   created() {
     if (this.$route.query.warn) {
-      this.errorMessage = "Please log in first!";
+      this.errorMessage = 'Please log in first!';
     } else {
-      this.errorMessage = "";
+      this.errorMessage = '';
     }
   },
   computed: {
     showError: {
       get() {
-        return this.$store.getters["auth/getError"];
+        return this.$store.getters['auth/getError'];
       },
       set(err) {
         return err;
       },
     },
     pswModeRules() {
-      return this.mode === "register" ? this.passwordRules : [];
+      return this.mode === 'register' ? this.passwordRules : [];
     },
     usrModeRules() {
-      return this.mode === "register" ? this.usernameRules : [];
+      return this.mode === 'register' ? this.usernameRules : [];
     },
     showCounter() {
-      return this.mode === "register" ? 20 : null;
+      return this.mode === 'register' ? 20 : null;
     },
   },
   methods: {
@@ -155,16 +155,16 @@ export default {
       this.$refs.form.validate();
     },
     submitForm() {
-      if (this.mode === "login") {
+      if (this.mode === 'login') {
         this.formData = {
           username: this.username,
           password: this.password,
         };
 
-        this.$emit("save-auth", this.formData);
+        this.$emit('save-auth', this.formData);
 
         if (this.showError) {
-          this.errorMessage = "Failed to authenticate! Check your login data.";
+          this.errorMessage = 'Failed to authenticate! Check your login data.';
           return;
         }
       } else {
@@ -180,10 +180,10 @@ export default {
           password: this.password,
         };
 
-        this.$emit("save-auth", this.formData);
+        this.$emit('save-auth', this.formData);
 
         if (this.showError) {
-          this.errorMessage = "Something went wrong! Please try again later.";
+          this.errorMessage = 'Something went wrong! Please try again later.';
           return;
         }
       }
