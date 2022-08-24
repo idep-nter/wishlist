@@ -14,3 +14,8 @@ Features:
 TBD:
 - properly working responsiveness
 - password reset by email
+
+<br/>
+<br/>
+
+![Screenshot 2022-08-24 at 13 25 09](https://user-images.githubusercontent.com/69076772/186407209-78d9645d-789b-4356-a67e-130a32df233c.JPG)
