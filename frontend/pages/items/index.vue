@@ -1,7 +1,7 @@
 <template>
-  <v-row class="mt-12 ml-2">
-    <v-col cols="6" md="2" class="pt-0">
-      <v-card class="" max-width="" height="">
+  <v-row class="mt-12 mainRow">
+    <v-col md="3" sm="4" class>
+      <v-card class="pa-2 filterCard">
         <v-col class="">
           <h2 class="text-h6 mb-2">Filter by name</h2>
           <v-text-field
@@ -9,25 +9,25 @@
             type="text"
             prepend-icon="mdi-magnify"
             label="Product name"
-            style="width: 280px"
+            :style="inputSize"
           ></v-text-field>
         </v-col>
 
         <v-col class="">
-          <h2 class="text-h6 mb-2">Filter by Price</h2>
+          <h2 class="text-h6 mb-2">Filter by price</h2>
           <v-text-field
             v-model="minPrice"
             type="text"
             prepend-icon="mdi-currency-usd"
             label="Min price"
-            style="width: 280px"
+            :style="inputSize"
           ></v-text-field>
           <v-text-field
             v-model="maxPrice"
             type="text"
             prepend-icon="mdi-currency-usd"
             label="Max price"
-            style="width: 280px"
+            :style="inputSize"
           ></v-text-field>
         </v-col>
 
@@ -35,9 +35,11 @@
           <h2 class="text-h6 mb-2">Filter by importance</h2>
           <v-btn-toggle v-model="importance" tile group dense shaped>
             <v-container class="pl-0">
-              <v-btn class="mr-1" value="all"> All </v-btn>
-              <v-btn value="true"> Important </v-btn>
-              <v-btn class="mt-2" value="false"> Not important </v-btn>
+              <v-btn :small="buttonSize" class="mr-1" value="all"> All </v-btn>
+              <v-btn :small="buttonSize" class="mr-1" value="true">
+                Important
+              </v-btn>
+              <v-btn :small="buttonSize" value="false"> Not important </v-btn>
             </v-container>
           </v-btn-toggle>
         </v-col>
@@ -55,6 +57,7 @@
               :key="category.value"
               filter
               label
+              :small="buttonSize"
             >
               {{ category.name }}
             </v-chip>
@@ -63,8 +66,8 @@
       </v-card>
     </v-col>
 
-    <v-col cols="12" sm="6" md="8">
-      <v-card max-width="1200" :height="height" class="">
+    <v-col md="6" sm="7">
+      <v-card max-width="1200" height="800" class="pa-2 itemCard">
         <v-layout row class="justify-center pl-5 pr-10" v-if="hasItems">
           <v-flex xs6 sm4 md3 v-for="item in filteredItems" :key="item.id">
             <user-item
@@ -103,7 +106,7 @@
 
 <script>
 import UserItem from '~/components/items/UserItem.vue';
-import { notLoggedGuard } from '~/helperFunctions';
+import { notLoggedGuard, range } from '~/helperFunctions';
 
 export default {
   components: {
@@ -126,11 +129,14 @@ export default {
     currentPage(value) {
       this.loadItems(value);
     },
+    filteredCategories(value) {
+      console.log(this.filteredCategories);
+      // const x = this.keyArray()
+      // console.log(this.items)
+      console.log(this.categories);
+    },
   },
   computed: {
-    // filteredCategories() {
-    //   return [ ...Array(this.$store.getters["items/getCategories"].length).keys(),]
-    // },
     getMax() {
       if (this.maxPrice === null || this.maxPrice === '') {
         return 9999999999;
@@ -148,34 +154,44 @@ export default {
     apiData() {
       return this.$store['auth/APIData'];
     },
-    height() {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return 1300;
-        default:
-          return 800;
-      }
-    },
     hasItems() {
       return this.$store.getters['items/hasItems'];
     },
     filteredItems() {
-      return this.items
-        .filter((item) => {
-          return item.name.toLowerCase().includes(this.search.toLowerCase());
-        })
-        .filter((item) => {
-          if (this.importance === 'all') {
-            return item;
-          }
-          return item.important.toString() == this.importance;
-        })
-        .filter((item) => {
-          return this.filteredCategories.includes(item.category - 1);
-        })
-        .filter((item) => {
-          return item.price >= this.getMin && item.price <= this.getMax;
-        });
+      return (
+        this.items
+          .filter((item) => {
+            return item.name.toLowerCase().includes(this.search.toLowerCase());
+          })
+          .filter((item) => {
+            if (this.importance === 'all') {
+              return item;
+            }
+            return item.important.toString() == this.importance;
+          })
+          // .filter((item) => {
+          //   return this.filteredCategories.includes(item.category);
+          // })
+          .filter((item) => {
+            return item.price >= this.getMin && item.price <= this.getMax;
+          })
+      );
+    },
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
+      }
+    },
+    inputSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return "max-width: 300px"
+        default:
+          return "max-width: 350px"
+      }
     },
   },
   created() {
@@ -192,6 +208,7 @@ export default {
     loadCategories() {
       this.$store.dispatch('items/loadCategories');
       this.categories = this.$store.getters['items/getCategories'];
+      // this.filteredCategories = this.$store.getters['items/getCategories'];
     },
     async loadFilteredCategories() {
       this.filteredCategories = [
@@ -201,6 +218,10 @@ export default {
     loadPageCount() {
       this.pageCount = Math.ceil(this.$store.getters['items/getCount'] / 12);
     },
+    keyArray() {
+      const indexes = range(0, this.categories.length - 1);
+      return indexes;
+    },
   },
   beforeRouteEnter(to, from, next) {
     notLoggedGuard(next);
@@ -209,10 +230,6 @@ export default {
 </script>
 
 <style scoped>
-#container {
-  position: relative;
-}
-
 #pagination {
   position: absolute;
   bottom: 0;
@@ -224,5 +241,29 @@ export default {
 a {
   text-decoration: none;
   color: #006400;
+}
+
+/* Smartphones */
+@media (max-width: 767px) {
+  .itemCard {
+    height: 1300px !important;
+  }
+  .mainRow {
+    margin-top: 0px !important;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+  .mainRow {
+    justify-content: center;
+  }
+}
+
+/* Desktop */
+@media (min-width: 992px) {
+  .filterCard {
+    margin-left: 25px;
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
-  <v-card class="justify-center mx-auto mt-12" max-width="500">
-    <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
+  <v-card class="justify-center mx-auto mt-12 formCard" max-width="500">
+    <v-form ref="form" v-model="valid" lazy-validation class="pa-4">
       <v-text-field
         v-model="name"
         :rules="nameRules"
@@ -44,12 +44,17 @@
       ></v-textarea>
 
       <v-checkbox v-model="important" label="Important"></v-checkbox>
-      <v-container class="mt-8 justify-center d-flex">
-        <v-btn :disabled="!valid" class="mr-4" @click="submitForm">
+      <v-container class="mt-8 justify-center d-flex buttons">
+        <v-btn
+          :small="buttonSize"
+          :disabled="!valid"
+          class="mr-4"
+          @click="submitForm"
+        >
           Submit
         </v-btn>
 
-        <v-btn class="mr-4" @click="reset"> Reset Form </v-btn>
+        <v-btn :small="buttonSize" @click="reset"> Reset Form </v-btn>
       </v-container>
     </v-form>
   </v-card>
@@ -61,7 +66,7 @@ export default {
   props: ['mode', 'id'],
   data() {
     return {
-      valid: true,
+      valid: false,
       name: '',
       nameRules: [
         (v) => !!v || 'Title is required',
@@ -150,7 +155,9 @@ export default {
       this.$refs.form.reset();
     },
     submitForm() {
+      console.log(this.valid);
       this.validate();
+      console.log(this.valid);
       if (!this.valid) {
         return;
       }
@@ -186,6 +193,16 @@ export default {
       this.categories = this.$store.getters['items/getCategories'];
     },
   },
+  computed: {
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
+      }
+    },
+  },
   created() {
     this.loadCategories();
 
@@ -195,3 +212,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Smartphones */
+@media (max-width: 767px) {
+  .formCard {
+    margin-top: 0px !important;
+  }
+  .buttons {
+    padding-bottom: 50px !important;
+  }
+}
+</style>

@@ -22,9 +22,4 @@ class ItemViewSet(viewsets.ModelViewSet):
     # queryset = Item.objects.all()
 
     def get_queryset(self):
-        return Item.objects.filter(user=self.request.user)
-
-    # def form_valid(self, form):
-    #     obj = form.save(commit=False)
-    #     obj.user = self.request.user
-    #     obj.save()        
+        return Item.objects.filter(user=self.request.user)     

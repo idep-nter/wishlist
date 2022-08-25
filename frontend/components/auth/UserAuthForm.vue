@@ -5,12 +5,12 @@
       outlined
       type="error"
       v-if="errorMessage"
-      class="justify-center mx-auto mt-12"
+      class="justify-center mx-auto mt-12 logAlert"
       max-width="500"
     >
       {{ errorMessage }}
     </v-alert>
-    <v-card class="justify-center mx-auto mt-12" max-width="500">
+    <v-card class="justify-center mx-auto mt-12 formCard" max-width="500">
       <v-form ref="form" v-model="valid" lazy-validation class="pa-sm-4">
         <v-text-field
           v-model="username"
@@ -53,11 +53,11 @@
 
         <v-container v-if="mode === 'login'">
           <v-container class="mt-8 justify-center d-flex">
-            <v-btn :disabled="!valid" class="mr-4" @click="submitForm">
+            <v-btn :small="buttonSize" :disabled="!valid" class="mr-4" @click="submitForm">
               Log in
             </v-btn>
             <NuxtLink to="register">
-              <v-btn class="mr-4">Sign up instead</v-btn>
+              <v-btn :small="buttonSize" class="mr-4">Sign up instead</v-btn>
             </NuxtLink>
           </v-container>
           <v-container class="mt-8 justify-center d-flex">
@@ -149,6 +149,14 @@ export default {
     showCounter() {
       return this.mode === 'register' ? 20 : null;
     },
+    buttonSize() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return true;
+        default:
+          return false;
+      }
+    },
   },
   methods: {
     validate() {
@@ -198,7 +206,14 @@ a {
   color: #006400;
 }
 
-.ab {
-  color: #006400;
+/* Smartphones */
+@media (max-width: 767px) {
+  .formCard {
+    margin-top: 0px !important;
+  }
+
+  .logAlert {
+     margin-top: 10px !important;
+  }
 }
 </style>
