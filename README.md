@@ -12,8 +12,7 @@ Features:
 - pagination
 
 TBD:
-- properly working responsiveness
-- password reset by email
+- password reset by email (some day in distant future)
 
 <br/>
 <br/>
