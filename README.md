@@ -10,6 +10,7 @@ Features:
 - error messages and dialogs depending on the state
 - form validation
 - pagination
+- responsiveness
 
 TBD:
 - password reset by email (some day in distant future)
