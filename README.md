@@ -1,4 +1,4 @@
-For the fist "bigger" web project I decided for combination of Vue.js (Nuxt) and Django.
+For the fist "bigger" web project I decided for combination of Vue.js (Nuxt) with Vuetify as css framework and Django.
 
 Wishlist is a simple website where you can register and then add items with details you wish to have.
 
