@@ -66,7 +66,7 @@ export default {
   props: ['mode', 'id'],
   data() {
     return {
-      valid: false,
+      valid: true,
       name: '',
       nameRules: [
         (v) => !!v || 'Title is required',
@@ -148,33 +148,26 @@ export default {
     },
   },
   methods: {
-    validate() {
-      this.$refs.form.validate();
-    },
     reset() {
       this.$refs.form.reset();
     },
     submitForm() {
-      console.log(this.valid);
-      this.validate();
-      console.log(this.valid);
-      if (!this.valid) {
-        return;
+      if (this.$refs.form.validate()) {
+        const category = this.categories.find(
+          (cat) => cat.name === this.category
+        );
+        const formData = {
+          id: this.id,
+          name: this.name,
+          category: category.id,
+          image: this.image,
+          price: this.price,
+          important: this.important,
+          link: this.link,
+          description: this.description,
+        };
+        this.$emit('save-data', formData);
       }
-      const category = this.categories.find(
-        (cat) => cat.name === this.category
-      );
-      const formData = {
-        id: this.id,
-        name: this.name,
-        category: category.id,
-        image: this.image,
-        price: this.price,
-        important: this.important,
-        link: this.link,
-        description: this.description,
-      };
-      this.$emit('save-data', formData);
     },
     loadItemData() {
       const item = this.$store.getters['items/getItemById'](this.id);
