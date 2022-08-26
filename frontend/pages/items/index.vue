@@ -54,7 +54,7 @@
           >
             <v-chip
               v-for="category in categories"
-              :key="category.value"
+              :key="category.id"
               filter
               label
               :small="buttonSize"
@@ -106,7 +106,7 @@
 
 <script>
 import UserItem from '~/components/items/UserItem.vue';
-import { notLoggedGuard, range } from '~/helperFunctions';
+import { notLoggedGuard, filteredIDs } from '~/helperFunctions';
 
 export default {
   components: {
@@ -128,12 +128,6 @@ export default {
   watch: {
     currentPage(value) {
       this.loadItems(value);
-    },
-    filteredCategories(value) {
-      console.log(this.filteredCategories);
-      // const x = this.keyArray()
-      // console.log(this.items)
-      console.log(this.categories);
     },
   },
   computed: {
@@ -158,24 +152,23 @@ export default {
       return this.$store.getters['items/hasItems'];
     },
     filteredItems() {
-      return (
-        this.items
-          .filter((item) => {
-            return item.name.toLowerCase().includes(this.search.toLowerCase());
-          })
-          .filter((item) => {
-            if (this.importance === 'all') {
-              return item;
-            }
-            return item.important.toString() == this.importance;
-          })
-          // .filter((item) => {
-          //   return this.filteredCategories.includes(item.category);
-          // })
-          .filter((item) => {
-            return item.price >= this.getMin && item.price <= this.getMax;
-          })
-      );
+      const catIDs = this.filteredIDs();
+      return this.items
+        .filter((item) => {
+          return item.name.toLowerCase().includes(this.search.toLowerCase());
+        })
+        .filter((item) => {
+          if (this.importance === 'all') {
+            return item;
+          }
+          return item.important.toString() == this.importance;
+        })
+        .filter((item) => {
+          return catIDs.includes(item.category.toString());
+        })
+        .filter((item) => {
+          return item.price >= this.getMin && item.price <= this.getMax;
+        });
     },
     buttonSize() {
       switch (this.$vuetify.breakpoint.name) {
@@ -188,9 +181,9 @@ export default {
     inputSize() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return "max-width: 300px"
+          return 'max-width: 300px';
         default:
-          return "max-width: 350px"
+          return 'max-width: 350px';
       }
     },
   },
@@ -208,7 +201,6 @@ export default {
     loadCategories() {
       this.$store.dispatch('items/loadCategories');
       this.categories = this.$store.getters['items/getCategories'];
-      // this.filteredCategories = this.$store.getters['items/getCategories'];
     },
     async loadFilteredCategories() {
       this.filteredCategories = [
@@ -218,9 +210,11 @@ export default {
     loadPageCount() {
       this.pageCount = Math.ceil(this.$store.getters['items/getCount'] / 12);
     },
-    keyArray() {
-      const indexes = range(0, this.categories.length - 1);
-      return indexes;
+    filteredIDs() {
+      const set = new Set(this.filteredCategories);
+      const abc = this.categories.filter((_, index) => set.has(index));
+      const ids = abc.map((cat) => cat.id);
+      return ids;
     },
   },
   beforeRouteEnter(to, from, next) {

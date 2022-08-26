@@ -5,7 +5,7 @@
       outlined
       type="error"
       v-if="errorMessage"
-      class="justify-center mx-auto mt-12 logAlert"
+      class="justify-center mx-auto mt-15 logAlert"
       max-width="500"
     >
       {{ errorMessage }}
@@ -53,7 +53,12 @@
 
         <v-container v-if="mode === 'login'">
           <v-container class="mt-8 justify-center d-flex">
-            <v-btn :small="buttonSize" :disabled="!valid" class="mr-4" @click="submitForm">
+            <v-btn
+              :small="buttonSize"
+              :disabled="!valid"
+              class="mr-4"
+              @click="submitForm"
+            >
               Log in
             </v-btn>
             <NuxtLink to="register">
@@ -213,7 +218,7 @@ a {
   }
 
   .logAlert {
-     margin-top: 10px !important;
+    margin-top: 10px !important;
   }
 }
 </style>

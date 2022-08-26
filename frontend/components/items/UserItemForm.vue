@@ -1,5 +1,5 @@
 <template>
-  <v-card class="justify-center mx-auto mt-12 formCard" max-width="500">
+  <v-card class="justify-center mx-auto mt-15 formCard" max-width="500">
     <v-form ref="form" v-model="valid" lazy-validation class="pa-4">
       <v-text-field
         v-model="name"
